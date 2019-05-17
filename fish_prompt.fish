@@ -44,7 +44,7 @@ function agnoster::context
   end
 
   if [ ! -z "$IN_NIX_SHELL" ]
-    agnoster::segment red black "nix "
+    agnoster::segment red '000' "nix "
   end
 end
 
@@ -101,7 +101,7 @@ function agnoster::git::ahead
         if (a > 0 && b > 0)
           print "±";
         else if (a > 0)
-          print "+";
+          print " • ";
         else if (b > 0)
           print "-"
       }'
@@ -126,7 +126,7 @@ function agnoster::git -d "Display the actual git state"
 
   set -l content "$branch$ahead$staged$stashed"
 
-  agnoster::segment (agnoster::git::color) black "$content "
+  agnoster::segment (agnoster::git::color) '000' "$content "
 end
 # }}}
 
@@ -135,7 +135,7 @@ function agnoster::dir -d 'Print current working directory'
   if set -q AGNOSTER_SEGMENT_SEPARATOR[2]
     set dir (echo "$dir" | sed "s,/,$AGNOSTER_SEGMENT_SEPARATOR[2],g")
   end
-  agnoster::segment blue black "$dir "
+  agnoster::segment blue '000' "$dir "
 end
 
 function agnoster::finish
@@ -148,7 +148,7 @@ function fish_prompt
   set -g __agnoster_last_status $status
 
   agnoster::status
-  agnoster::context
+  # agnoster::context
   agnoster::dir
   agnoster::git
   agnoster::finish
