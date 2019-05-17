@@ -13,8 +13,8 @@ agnoster::set_default AGNOSTER_ICON_BGJOBS \u2699
 
 agnoster::set_default AGNOSTER_ICON_SCM_BRANCH \u2387
 agnoster::set_default AGNOSTER_ICON_SCM_REF \u27a6
-agnoster::set_default AGNOSTER_ICON_SCM_STAGED '…'
-agnoster::set_default AGNOSTER_ICON_SCM_STASHED '~'
+agnoster::set_default AGNOSTER_ICON_SCM_STAGED ' … '
+agnoster::set_default AGNOSTER_ICON_SCM_STASHED ' ~ '
 
 function agnoster::segment --desc 'Create prompt segment'
   set bg $argv[1]
@@ -75,7 +75,7 @@ function agnoster::git::is_repo
 end
 
 function agnoster::git::color
-  if command git diff --no-ext-diff --quiet --exit-code
+  if command git status --porcelain --ignore-submodules
     echo "green"
   else
     echo "yellow"
@@ -99,16 +99,17 @@ function agnoster::git::ahead
       {if (a > 0 && b > 0) nextfile}
       END {
         if (a > 0 && b > 0)
-          print "±";
+          print " ± ";
         else if (a > 0)
           print " ● ";
         else if (b > 0)
-          print "-"
+          print " - "
       }'
 end
 
 function agnoster::git::stashed
-  command git rev-parse --verify --quiet refs/stash >/dev/null; and echo -n "$AGNOSTER_ICON_SCM_STASHED"
+  # command git rev-parse --verify --quiet refs/stash >/dev/null; and echo -n "$AGNOSTER_ICON_SCM_STASHED"
+  echo ''
 end
 
 function agnoster::git::staged
