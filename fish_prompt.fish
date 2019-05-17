@@ -75,7 +75,7 @@ function agnoster::git::is_repo
 end
 
 function agnoster::git::color
-  if command git status --porcelain --ignore-submodules
+  if command git status --porcelain --ignore-submodules ^/dev/null >/dev/null
     echo "green"
   else
     echo "yellow"
@@ -108,8 +108,8 @@ function agnoster::git::ahead
 end
 
 function agnoster::git::stashed
-  # command git rev-parse --verify --quiet refs/stash >/dev/null; and echo -n "$AGNOSTER_ICON_SCM_STASHED"
-  echo ''
+  command git rev-parse --verify --quiet refs/stash >/dev/null; and echo -n "$AGNOSTER_ICON_SCM_STASHED"
+  echo -n ''
 end
 
 function agnoster::git::staged
