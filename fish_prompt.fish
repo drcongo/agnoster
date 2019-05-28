@@ -13,7 +13,7 @@ agnoster::set_default AGNOSTER_ICON_BGJOBS \u2699
 
 agnoster::set_default AGNOSTER_ICON_SCM_BRANCH \u2387
 agnoster::set_default AGNOSTER_ICON_SCM_REF \u27a6
-agnoster::set_default AGNOSTER_ICON_SCM_STAGED '… '
+agnoster::set_default AGNOSTER_ICON_SCM_STAGED '+ '
 agnoster::set_default AGNOSTER_ICON_SCM_STASHED '~ '
 
 function agnoster::segment --desc 'Create prompt segment'
