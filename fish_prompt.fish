@@ -113,7 +113,7 @@ function agnoster::git::stashed
 end
 
 function agnoster::git::staged
-  command git diff --cached --no-ext-diff --quiet --exit-code; or echo -n "$AGNOSTER_ICON_SCM_STAGED"
+  command git diff --cached --no-ext-diff --quiet --exit-code; or echo -n "$AGNOSTER_ICON_SCM_STAGED "
 end
 # }}}
 
