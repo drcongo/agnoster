@@ -13,8 +13,8 @@ agnoster::set_default AGNOSTER_ICON_BGJOBS \u2699
 
 agnoster::set_default AGNOSTER_ICON_SCM_BRANCH \u2387
 agnoster::set_default AGNOSTER_ICON_SCM_REF \u27a6
-agnoster::set_default AGNOSTER_ICON_SCM_STAGED ' … '
-agnoster::set_default AGNOSTER_ICON_SCM_STASHED ' ~ '
+agnoster::set_default AGNOSTER_ICON_SCM_STAGED '… '
+agnoster::set_default AGNOSTER_ICON_SCM_STASHED '~ '
 
 function agnoster::segment --desc 'Create prompt segment'
   set bg $argv[1]
@@ -70,25 +70,25 @@ end
 
 # Git {{{
 # Utils {{{
+
+function agnoster::git::branch
+  echo $AGNOSTER_ICON_SCM_BRANCH (git symbolic-ref HEAD ^/dev/null | sed -e 's|^refs/heads/||')
+end
+
+function agnoster::git::dirty
+  echo (git status -s --ignore-submodules=dirty ^/dev/null)
+end
+
 function agnoster::git::is_repo
   command git rev-parse --is-inside-work-tree ^/dev/null >/dev/null
 end
 
 function agnoster::git::color
-  if command git status --porcelain --ignore-submodules ^/dev/null >/dev/null
+  if ! [ (agnoster::git::dirty) ]
     echo "green"
   else
     echo "yellow"
   end
-end
-
-function agnoster::git::branch
-  set -l ref (command git symbolic-ref HEAD ^/dev/null)
-  if [ "$status" -ne 0 ]
-    set -l branch (command git show-ref --head -s --abbrev | head -n1 ^/dev/null)
-    set ref "$AGNOSTER_ICON_SCM_REF $branch"
-  end
-  echo "$ref" | sed "s|\s*refs/heads/|$AGNOSTER_ICON_SCM_BRANCH |1"
 end
 
 function agnoster::git::ahead
@@ -99,11 +99,11 @@ function agnoster::git::ahead
       {if (a > 0 && b > 0) nextfile}
       END {
         if (a > 0 && b > 0)
-          print " ± ";
+          print "± ";
         else if (a > 0)
-          print " ● ";
+          print "● ";
         else if (b > 0)
-          print " - "
+          print "- "
       }'
 end
 
@@ -125,9 +125,10 @@ function agnoster::git -d "Display the actual git state"
   set -l branch (agnoster::git::branch)
   set -l ahead (agnoster::git::ahead)
 
-  set -l content "$branch$ahead$staged$stashed"
+  # set -l content "$branch$ahead$staged$stashed"
+  set -l content "$branch $ahead$staged"
 
-  agnoster::segment (agnoster::git::color) '000' "$content "
+  agnoster::segment (agnoster::git::color) '000' "$content"
 end
 # }}}
 
